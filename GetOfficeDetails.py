@@ -2,27 +2,29 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-import openpyxl
-import os
-import re
-
-import smtplib
 from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
+
+import openpyxl
+import os
+import re
+import smtplib
+import time
+
 
 
 driver = webdriver.Chrome()
 
 driver.get('https://my.fibank.bg/EBank/public/offices')
 driver.maximize_window()
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 20)
 
 
 root = wait.until(EC.presence_of_all_elements_located((By.XPATH, 
                                                        "//div[contains(@class, 'col col-full')][.//ul[contains(@class, 'list-inline')]]")))
+time.sleep(5)
 officeElements = root[0].find_elements(By.XPATH,
                              "//div[contains(@class, 'margin-16')]")
 
@@ -39,7 +41,7 @@ holidayPattern = r'(?:Събота|Неделя)'
 
 idx = 0
 
-for i, item in enumerate(officeElements, start=1):
+for i, item in enumerate(officeElements, start=0):
     if re.search(holidayPattern, item.text):
         idx+= 1
         ws.cell(row=idx, column=1, value=item.text)
@@ -48,7 +50,7 @@ wb.save(pathToExcel)
 print('File Created Successfully')
 
 sender_email = 'encho871337@gmail.com'
-recipients = ['encho871337@gmail.com','kameliya.nikolova@fibank.bg']
+recipients = ['encho871337@gmail.com']
 subject = 'Subject: Sending Excel File via Gmail SMTP'
 body = 'This is the body of the email'
 message = MIMEMultipart()
