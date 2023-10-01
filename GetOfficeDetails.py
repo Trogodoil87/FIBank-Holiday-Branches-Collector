@@ -48,7 +48,7 @@ wb.save(pathToExcel)
 print('File Created Successfully')
 
 sender_email = 'encho871337@gmail.com'
-recipients = ['encho871337@gmail.com']
+recipients = ['encho871337@gmail.com','kameliya.nikolova@fibank.bg']
 subject = 'Subject: Sending Excel File via Gmail SMTP'
 body = 'This is the body of the email'
 message = MIMEMultipart()
